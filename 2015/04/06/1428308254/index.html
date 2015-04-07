@@ -5,15 +5,24 @@
   
   <title>实践：centos6.5 minimal下Gitlab CE服务器搭建 | 比较随便</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="实践：centos6.5 minimal下Gitlab CE服务器搭建为公司“开发-测试-发布”需要，搭建Gitlab服务器。">
+  <meta name="description" content="目录基本情况说明0. 网络环境1. 基础环境安装2. 安装依赖环境3. 安装ruby4. 安装配置MySQL5. 安装配置Gitlab6. 安装Gitlab-shell7. 安装配置Nginx8. 一些修正
+9. 记录:history为公司“开发-测试-发布”需要，搭建Gitlab服务器。
+本篇是手动安装方式。
+关于一键安装希望一键安装的，参考以下网址：1、官网下载地址安装说明2、Gitlab I">
 <meta property="og:type" content="article">
 <meta property="og:title" content="实践：centos6.5 minimal下Gitlab CE服务器搭建">
 <meta property="og:url" content="http://www.zrick.net/2015/04/06/1428308254/index.html">
 <meta property="og:site_name" content="比较随便">
-<meta property="og:description" content="实践：centos6.5 minimal下Gitlab CE服务器搭建为公司“开发-测试-发布”需要，搭建Gitlab服务器。">
+<meta property="og:description" content="目录基本情况说明0. 网络环境1. 基础环境安装2. 安装依赖环境3. 安装ruby4. 安装配置MySQL5. 安装配置Gitlab6. 安装Gitlab-shell7. 安装配置Nginx8. 一些修正
+9. 记录:history为公司“开发-测试-发布”需要，搭建Gitlab服务器。
+本篇是手动安装方式。
+关于一键安装希望一键安装的，参考以下网址：1、官网下载地址安装说明2、Gitlab I">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实践：centos6.5 minimal下Gitlab CE服务器搭建">
-<meta name="twitter:description" content="实践：centos6.5 minimal下Gitlab CE服务器搭建为公司“开发-测试-发布”需要，搭建Gitlab服务器。">
+<meta name="twitter:description" content="目录基本情况说明0. 网络环境1. 基础环境安装2. 安装依赖环境3. 安装ruby4. 安装配置MySQL5. 安装配置Gitlab6. 安装Gitlab-shell7. 安装配置Nginx8. 一些修正
+9. 记录:history为公司“开发-测试-发布”需要，搭建Gitlab服务器。
+本篇是手动安装方式。
+关于一键安装希望一键安装的，参考以下网址：1、官网下载地址安装说明2、Gitlab I">
   
     <link rel="alternative" href="/atom.xml" title="比较随便" type="application/atom+xml">
   
@@ -222,8 +231,9 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="实践：centos6-5_minimal下Gitlab_CE服务器搭建">实践：centos6.5 minimal下Gitlab CE服务器搭建</h1><p>为公司“开发-测试-发布”需要，搭建Gitlab服务器。</p>
-<a id="more"></a>
+        <a id="more"></a>
+<p>目录<br><a href="#0">基本情况说明</a><br><a href="#1">0. 网络环境</a><br><a href="#2">1. 基础环境安装</a><br><a href="#2">2. 安装依赖环境</a><br><a href="#3">3. 安装ruby</a><br><a href="#4">4. 安装配置MySQL</a><br><a href="#5">5. 安装配置Gitlab</a><br><a href="#6">6. 安装Gitlab-shell</a><br><a href="#7">7. 安装配置Nginx</a><br><a href="#8">8. 一些修正</a></p>
+<h2 id="9-_记录:history"><a href="#9">9. 记录:history</a></h2><p>为公司“开发-测试-发布”需要，搭建Gitlab服务器。</p>
 <p>本篇是手动安装方式。</p>
 <h3 id="关于一键安装">关于一键安装</h3><p>希望一键安装的，参考以下网址：<br>1、官网<br><a href="https://about.gitlab.com/downloads/archives/" title="下载地址" target="_blank" rel="external">下载地址</a><br><a href="https://about.gitlab.com/installation/" title="安装说明" target="_blank" rel="external">安装说明</a><br>2、Gitlab Installer<br><a href="https://bitnami.com/stack/gitlab/installer" title="下载地址" target="_blank" rel="external">下载地址</a><br>安装说明：下一步—&gt;下一步—&gt;下一步，看着提示，谁都会。</p>
 <p>这两种方式都很简单，但不利于理解Gitlab服务器的基本配置。</p>
@@ -238,14 +248,6 @@
 <p>Gitlab网站上最新版本7.10 rc2</p>
 <p>关于Gitlab Ce和Gitlab-shell的版本，可以用sourcetree建个gitlab和gitlab-shell的库查看<br>gitlab：<br><a href="https://gitlab.com/gitlab-org/gitlab-ce.git" target="_blank" rel="external">https://gitlab.com/gitlab-org/gitlab-ce.git</a><br>gitlab-shell：<br><a href="https://gitlab.com/gitlab-org/gitlab-shell.git" target="_blank" rel="external">https://gitlab.com/gitlab-org/gitlab-shell.git</a></p>
 <p>安装过程参考：<br><a href="https://github.com/gitlabhq/gitlab-recipes/blob/master/install/centos/README.md" target="_blank" rel="external">https://github.com/gitlabhq/gitlab-recipes/blob/master/install/centos/README.md</a><br>每个版本需要的依赖库可能不同，下文仅供参考。</p>
-<p>安装步骤<br><a href="#1">0. 网络环境</a><br><a href="#2">1. 基础环境安装</a><br><a href="#2">2. 安装依赖环境</a><br><a href="#3">3. 安装ruby</a><br><a href="#4">4. 安装配置MySQL</a></p>
-<ol>
-<li>安装配置Gitlab</li>
-<li>安装Gitlab-shell</li>
-<li>安装配置Nginx</li>
-<li>一些修正</li>
-<li>记录:history</li>
-</ol>
 <p>0、网络环境<br>1、本机IP：192.168.1.161<br>2、虚拟机：NAT，网关：192.168.154.1<br>3、VM：Centos6.5 minimal，IP：192.168.154.128</p>
 <ul>
 <li>网络环境</li>
@@ -253,34 +255,75 @@
 <li>虚拟机：NAT，网关：192.168.154.1</li>
 <li>VM：Centos6.5 minimal，IP：192.168.154.128</li>
 </ul>
-<h2 id="1-_基础环境安装">1. 基础环境安装</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 同步时间（非必需）</span></span><br><span class="line">yum -y install ntpdate</span><br><span class="line">ntpdate time.nist.gov</span><br><span class="line">yum -y install vim wget lrzsz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装epel源</span></span><br><span class="line">rpm -Uvh http://dl.fedoraproject.org/pub/epel/<span class="number">6</span>/x86_64/epel-release-<span class="number">6</span>-<span class="number">8</span>.noarch.rpm</span><br><span class="line">wget -O /etc/yum.repos.d/PUIAS_6_computational.repo https://gitlab.com/gitlab-org/gitlab-recipes/raw/master/install/centos/PUIAS_6_computational.repo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载安装gpg key</span></span><br><span class="line">wget -O /etc/pki/rpm-gpg/RPM-GPG-KEY-puias http://springdale.math.ias.edu/data/puias/<span class="number">6</span>/x86_64/os/RPM-GPG-KEY-puias</span><br><span class="line">rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-<span class="number">6</span></span><br></pre></td></tr></table></figure>
-<h3 id="查看是否成功安装">查看是否成功安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa gpg-pubkey*</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>gpg-pubkey-c105b9de-4e0fd3a3<br>gpg-pubkey-0608b895-4bd22942</p>
-<p><br><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum repolist</span><br></pre></td></tr></table></figure></p>
-<p>Loaded plugins: fastestmirror<br>Loading mirror speeds from cached hostfile</p>
-<ul>
-<li>PUIAS_6_computational: puias.math.ias.edu</li>
-<li>base: mirrors.btte.net</li>
-<li>epel: ftp6.sjtu.edu.cn</li>
-<li>extras: mirrors.btte.net</li>
-<li>updates: mirrors.163.com<br>PUIAS_6_computational                                                                                                   | 3.3 kB     00:00<br>PUIAS_6_computational/primary_db                                                                                        | 1.8 MB     00:10<br>repo id                                                 repo name                                                                        status<br>PUIAS_6_computational                                   PUIAS computational Base 6 - x86_64                                               2,735<br>base                                                    CentOS-6 - Base                                                                   6,518<br>*epel                                                   Extra Packages for Enterprise Linux 6 - x86_64                                   11,365<br>extras                                                  CentOS-6 - Extras                                                                    37<br>updates                                                 CentOS-6 - Updates                                                                  946<br>repolist: 21,601</li>
-</ul>
-</blockquote>
-<h2 id="2">2. 安装依赖环境</h2>
+<h2 id="1">1. 基础环境安装</h2><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 同步时间（非必需）</span></span><br><span class="line">yum -y install ntpdate</span><br><span class="line">ntpdate time.nist.gov</span><br><span class="line">yum -y install vim wget lrzsz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装epel源</span></span><br><span class="line">rpm -Uvh http://dl.fedoraproject.org/pub/epel/<span class="number">6</span>/x86_64/epel-release-<span class="number">6</span>-<span class="number">8</span>.noarch.rpm</span><br><span class="line">wget -O /etc/yum.repos.d/PUIAS_6_computational.repo https://gitlab.com/gitlab-org/gitlab-recipes/raw/master/install/centos/PUIAS_6_computational.repo</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载安装gpg key</span></span><br><span class="line">wget -O /etc/pki/rpm-gpg/RPM-GPG-KEY-puias http://springdale.math.ias.edu/data/puias/<span class="number">6</span>/x86_64/os/RPM-GPG-KEY-puias</span><br><span class="line">rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-<span class="number">6</span></span><br></pre></td></tr></table></figure><br><br>### 查看是否成功安装<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa gpg-pubkey*</span><br></pre></td></tr></table></figure><br><br><br>&gt;<br>gpg-pubkey-c105b9de-4e0fd3a3<br>gpg-pubkey-0608b895-4bd22942<br>&gt;<br><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum repolist</span><br></pre></td></tr></table></figure><br><br>&gt;<br>Loaded plugins: fastestmirror<br>Loading mirror speeds from cached hostfile<br> <em> PUIAS_6_computational: puias.math.ias.edu
+ </em> base: mirrors.btte.net<br> <em> epel: ftp6.sjtu.edu.cn
+ </em> extras: mirrors.btte.net<br> <em> updates: mirrors.163.com<br>PUIAS_6_computational                                                                                                   | 3.3 kB     00:00<br>PUIAS_6_computational/primary_db                                                                                        | 1.8 MB     00:10<br>repo id                                                 repo name                                                                        status<br>PUIAS_6_computational                                   PUIAS computational Base 6 - x86_64                                               2,735<br>base                                                    CentOS-6 - Base                                                                   6,518
+</em>epel                                                   Extra Packages for Enterprise Linux 6 - x86_64                                   11,365<br>extras                                                  CentOS-6 - Extras                                                                    37<br>updates                                                 CentOS-6 - Updates                                                                  946<br>repolist: 21,601<br><br><h2 id="2">2. 安装依赖环境</h2>
 
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更新</span></span><br><span class="line">yum -y update</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 安装依赖环境</span></span><br><span class="line">yum -y groupinstall <span class="string">'Development Tools'</span></span><br><span class="line">yum -y install readline readline-devel ncurses-devel gdbm-devel \</span><br><span class="line">glibc-devel tcl-devel openssl-devel curl-devel expat-devel \</span><br><span class="line">db4-devel byacc sqlite-devel libyaml libyaml-devel libffi libffi-devel \</span><br><span class="line">libxml2 libxml2-devel libxslt libxslt-devel libicu libicu-devel \</span><br><span class="line">system-config-firewall-tui redis sudo wget crontabs \</span><br><span class="line">logwatch logrotate perl-Time-HiRes python-docutils \</span><br><span class="line">nodejs cmake</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 启动redis，并将redis加到开机启动里</span></span><br><span class="line">chkconfig redis on</span><br><span class="line">service redis start</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 更新</span></span><br><span class="line">yum -y update</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 安装依赖环境</span></span><br><span class="line">yum -y groupinstall <span class="string">'Development Tools'</span></span><br><span class="line">	yum -y install readline readline-devel ncurses-devel gdbm-devel \</span><br><span class="line">	glibc-devel tcl-devel openssl-devel curl-devel expat-devel \</span><br><span class="line">	db4-devel byacc sqlite-devel libyaml libyaml-devel libffi libffi-devel \</span><br><span class="line">	libxml2 libxml2-devel libxslt libxslt-devel libicu libicu-devel \</span><br><span class="line">	system-config-firewall-tui redis sudo wget crontabs \</span><br><span class="line">	logwatch logrotate perl-Time-HiRes python-docutils \</span><br><span class="line">	nodejs cmake</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 启动redis，并将redis加到开机启动里</span></span><br><span class="line">chkconfig redis on</span><br><span class="line">service redis start</span><br></pre></td></tr></table></figure>
 <h2 id="3">3. 安装ruby</h2>
 
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装ruby</span></span><br><span class="line">mkdir /tmp/ruby &amp;&amp; <span class="built_in">cd</span> /tmp/ruby</span><br><span class="line">curl --progress ftp://ftp.ruby-lang.org/pub/ruby/<span class="number">2.2</span>/ruby-<span class="number">2.2</span>.<span class="number">1</span>.tar.gz | tar xz</span><br><span class="line"><span class="built_in">cd</span> ruby-<span class="number">2.2</span>.<span class="number">1</span></span><br><span class="line">./configure --disable-install-rdoc</span><br><span class="line">make</span><br><span class="line">make prefix=/usr/<span class="built_in">local</span> install</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 安装Bundler Gem</span></span><br><span class="line"><span class="comment"># 用taobao源替换rubygems</span></span><br><span class="line">gem <span class="built_in">source</span> -r https://rubygems.org/</span><br><span class="line">gem <span class="built_in">source</span> <span class="operator">-a</span> http://ruby.taobao.org/</span><br><span class="line">gem install bundler --no-rdoc</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 为Gitlab创建git用户</span></span><br><span class="line">adduser --system --shell /bin/bash --comment <span class="string">'GitLab'</span> --create-home --home-dir /home/git/ git</span><br></pre></td></tr></table></figure>
 <p>用root用户编辑/etc/sudoers文件，使git用户的环境变量PATH中包含/usr/local/bin<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">visudo</span><br></pre></td></tr></table></figure></p>
-<p>&gt;<br>Defaults secure_path = /sbin:/bin:/usr/sbin:/usr/bin<br>修改为：<br>Defaults secure_path = /sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin<br>&gt;</p>
-<h2 id="4">4. 安装配置MySQL</h2><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装MySQL</span></span><br><span class="line">yum install -y mysql-server mysql-devel</span><br><span class="line"><span class="comment"># 添加到开机启动</span></span><br><span class="line">chkconfig mysqld on</span><br><span class="line"><span class="comment"># 启动MySQL</span></span><br><span class="line">service mysqld start</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改MySQL的root密码，password处，替换成自己的密码</span></span><br><span class="line"><span class="comment"># 后面的配置文件中需要用到这个密码，用于数据库的初始化</span></span><br><span class="line">mysqladmin -u root password <span class="string">'root123'</span></span><br><span class="line"><span class="comment"># 使用刚才的密码，登录MySQL</span></span><br><span class="line">mysql -u root -proot123</span><br></pre></td></tr></table></figure><br><br>以下命令在MySQL命令行中执行：<br><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-- &#21019;&#24314;&#23494;&#30721;&#10;CREATE USER &#39;git&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;mygit&#39;;&#10;&#10;-- &#35774;&#32622;MySQL&#30340;&#24341;&#25806;&#20026;InnoDB&#10;SET storage_engine=INNODB;&#10;&#10;-- &#24314;&#24211;&#10;CREATE DATABASE IF NOT EXISTS `gitlabhq_production` DEFAULT CHARACTER SET `utf8` COLLATE `utf8_unicode_ci`;&#10;&#10;-- &#36171;&#26435;&#38480;&#10;GRANT SELECT, LOCK TABLES, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON `gitlabhq_production`.* TO &#39;git&#39;@&#39;localhost&#39;;</span><br></pre></td></tr></table></figure><br><br><h2 id="5">5. 安装配置Gitlab</h2>
+<blockquote>
+<p>Defaults secure_path = /sbin:/bin:/usr/sbin:/usr/bin<br>修改为：<br>Defaults secure_path = /sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin</p>
+</blockquote>
+<h2 id="4">4. 安装配置MySQL</h2>
 
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装MySQL</span></span><br><span class="line">yum install -y mysql-server mysql-devel</span><br><span class="line"><span class="comment"># 添加到开机启动</span></span><br><span class="line">chkconfig mysqld on</span><br><span class="line"><span class="comment"># 启动MySQL</span></span><br><span class="line">service mysqld start</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改MySQL的root密码，password处，替换成自己的密码</span></span><br><span class="line"><span class="comment"># 后面的配置文件中需要用到这个密码，用于数据库的初始化</span></span><br><span class="line">mysqladmin -u root password <span class="string">'root123'</span></span><br><span class="line"><span class="comment"># 使用刚才的密码，登录MySQL</span></span><br><span class="line">mysql -u root -proot123</span><br></pre></td></tr></table></figure>
+<p>以下命令在MySQL命令行中执行：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-- &#21019;&#24314;&#23494;&#30721;&#10;CREATE USER &#39;git&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;mygit&#39;;&#10;&#10;-- &#35774;&#32622;MySQL&#30340;&#24341;&#25806;&#20026;InnoDB&#10;SET storage_engine=INNODB;&#10;&#10;-- &#24314;&#24211;&#10;CREATE DATABASE IF NOT EXISTS `gitlabhq_production` DEFAULT CHARACTER SET `utf8` COLLATE `utf8_unicode_ci`;&#10;&#10;-- &#36171;&#26435;&#38480;&#10;GRANT SELECT, LOCK TABLES, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER ON `gitlabhq_production`.* TO &#39;git&#39;@&#39;localhost&#39;;</span><br></pre></td></tr></table></figure>
+<p>使用新用户登录新建数据库，测试是否能正常连接<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u git -H mysql -ugit -pmygit -Dgitlabhq_production</span><br></pre></td></tr></table></figure></p>
+<p>正常连接后，退出MySql</p>
+<h2 id="5">5. 安装配置Gitlab</h2>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/git</span><br><span class="line"><span class="comment"># 克隆Gitlab版本库</span></span><br><span class="line">sudo -u git -H git <span class="built_in">clone</span> https://gitlab.com/gitlab-org/gitlab-ce.git -b <span class="number">7</span>-<span class="number">9</span>-stable gitlab</span><br><span class="line"><span class="built_in">cd</span> /home/git/gitlab</span><br><span class="line">sudo -u git -H cp config/gitlab.yml.example config/gitlab.yml</span><br><span class="line">sudo -u git -H vim config/gitlab.yml</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>host: gce.zrick.net        &lt;– change ip<br>port: 443            &lt;– change port<br>https: true            &lt;– make this true</p>
+</blockquote>
+<p>修改目录权限<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">chown -R git &#123;<span class="built_in">log</span>,tmp&#125;</span><br><span class="line">chmod -R u+rwX  &#123;<span class="built_in">log</span>,tmp&#125;</span><br><span class="line">sudo -u git -H mkdir /home/git/gitlab-satellites</span><br><span class="line">chmod u+rwx,g+rx,o-rwx /home/git/gitlab-satellites</span><br><span class="line">chmod -R u+rwX  tmp/&#123;pids,sockets&#125;</span><br><span class="line">chmod -R u+rwX public/uploads</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo -u git -H cp config/unicorn.rb.example config/unicorn.rb</span><br><span class="line">sudo -u git -H vim config/unicorn.rb</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>worker_processes 3<br>修改为<br>worker_processes 4</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo -u git -H cp config/initializers/rack_attack.rb.example config/initializers/rack_attack.rb</span><br><span class="line"></span><br><span class="line">sudo -u git -H <span class="string">"/usr/bin/git"</span> config --global user.name  <span class="string">"GitLab"</span></span><br><span class="line">sudo -u git -H <span class="string">"/usr/bin/git"</span> config --global user.email <span class="string">"example@example.com"</span></span><br><span class="line">sudo -u git -H <span class="string">"/usr/bin/git"</span> config --global core.autocrlf <span class="string">"input"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改数据库用户名/密码</span></span><br><span class="line">sudo -u git cp config/database.yml.mysql config/database.yml</span><br><span class="line">sudo -u git -H vim config/database.yml</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>production:<br>  adapter: mysql2<br>  encoding: utf8<br>  collation: utf8_general_ci<br>  reconnect: false<br>  database: gitlabhq_production<br>  pool: 10<br>  username: git<br>  password: “secure password”        &lt;—修改这里，修改为“4安装配置MySQL”中为git创建的密码</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 让git用户可以读取config/database.yml文件</span></span><br><span class="line">sudo -u git -H chmod o-rwx config/database.yml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装Gems</span></span><br><span class="line"><span class="built_in">cd</span> /home/git/gitlab</span><br><span class="line">sudo -u git -H sed -i <span class="string">'s/https/http/'</span> Gemfile</span><br><span class="line">sudo -u git -H sed -i <span class="string">'s/rubygems/ruby.taobao/'</span> Gemfile</span><br><span class="line"> </span><br><span class="line">sudo -u git -H bundle install --deployment --without development <span class="built_in">test</span> postgres aws</span><br></pre></td></tr></table></figure>
 <h2 id="6">6. 安装Gitlab-shell</h2>
 
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/git</span><br><span class="line">sudo -u git -H /usr/bin/git <span class="built_in">clone</span> https://gitlab.com/gitlab-org/gitlab-shell.git -b v2.<span class="number">6.0</span></span><br><span class="line"><span class="built_in">cd</span> /home/git/gitlab-shell</span><br><span class="line">sudo -u git -H cp config.yml.example config.yml</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 修改配置文件</span></span><br><span class="line">sudo -u git -H vim config.yml</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>http_settings:<br>  ca_file: /etc/nginx/ssl/gce.crt     &lt;— 追加这行<br>  self_signed_cert: true            &lt;— 修改为true </p>
+<hr>
+<p>注销这行<br>socket: /var/run/redis/redis.sock # Comment out this line if you want to use TCP</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装</span></span><br><span class="line">sudo -u git -H ./bin/install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据库初期化</span></span><br><span class="line"><span class="built_in">cd</span> /home/git/gitlab</span><br><span class="line">sudo -u git -H bundle <span class="built_in">exec</span> rake gitlab:setup RAILS_ENV=production</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>提示：Do you want to continue (yes/no)?<br>输入：yes </p>
+<p>执行最后生成管理员帐号和密码，第一次登录时使用</p>
+<p>Administrator account created:<br>root<br>5iveL!fe</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装初期化脚本</span></span><br><span class="line">cp lib/support/init.d/gitlab /etc/init.d/gitlab</span><br><span class="line">chmod +x /etc/init.d/gitlab</span><br><span class="line">chkconfig --add gitlab</span><br><span class="line">chkconfig --level <span class="number">2345</span> gitlab on</span><br><span class="line"><span class="comment"># 设置logrotate</span></span><br><span class="line">cp lib/support/logrotate/gitlab /etc/logrotate.d/gitlab</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 检查配置Gitlab环境是否配置正确</span></span><br><span class="line">sudo -u git -H bundle <span class="built_in">exec</span> rake gitlab:env:info RAILS_ENV=production</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>[root@gce gitlab]# sudo -u git -H bundle exec rake gitlab:env:info RAILS_ENV=production<br>/home/git/gitlab/vendor/bundle/ruby/2.2.0/gems/fog-core-1.21.1/lib/fog/core/collection.rb:148: warning: circular argument reference - filters<br>/home/git/gitlab/vendor/bundle/ruby/2.2.0/gems/fog-1.21.0/lib/fog/rackspace/mock_data.rb:43: warning: duplicated key at line 81 ignored: “name”</p>
+<p>System information<br>System:<br>Current User:    git<br>Using RVM:    no<br>Ruby Version:    2.2.1p85<br>Gem Version:    2.4.5<br>Bundler Version:1.9.2<br>Rake Version:    10.4.2<br>Sidekiq Version:3.3.0</p>
+<p>GitLab information<br>Version:    7.9.2<br>Revision:    c46d4f5<br>Directory:    /home/git/gitlab<br>DB Adapter:    mysql2<br>URL:        <a href="https://gce.zrick.net" target="_blank" rel="external">https://gce.zrick.net</a><br>HTTP Clone URL:    <a href="https://gce.zrick.net/some-project.git" target="_blank" rel="external">https://gce.zrick.net/some-project.git</a><br>SSH Clone URL:    git@gce.zrick.net:some-project.git<br>Using LDAP:    no<br>Using Omniauth:    no</p>
+<p>GitLab Shell<br>Version:    2.6.0<br>Repositories:    /home/git/repositories/<br>Hooks:        /home/git/gitlab-shell/hooks/<br>Git:        /usr/bin/git </p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编译</span></span><br><span class="line">sudo -u git -H bundle <span class="built_in">exec</span> rake assets:precompile RAILS_ENV=production</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 启动Gitlab服务</span></span><br><span class="line">service gitlab start</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Starting both the GitLab Unicorn and Sidekiq<br>The GitLab Unicorn web server with pid 1462 is running.<br>The GitLab Sidekiq job dispatcher with pid 1502 is running.<br>GitLab and all its components are up and running.</p>
+</blockquote>
 <h2 id="7">7. 安装配置Nginx</h2>
 
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span></span><br><span class="line">yum -y install nginx</span><br><span class="line">chkconfig nginx on</span><br><span class="line">wget -O /etc/nginx/conf.d/gitlab.conf https://gitlab.com/gitlab-org/gitlab-ce/raw/master/lib/support/nginx/gitlab-ssl</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 编辑nginx配置文件</span></span><br><span class="line">vim /etc/nginx/conf.d/gitlab.conf</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>server {<br>  listen 0.0.0.0:80;<br>  listen [::]:80 ipv6only=on default_server;<br>  server_name YOUR_SERVER_FQDN; ## Replace this with something like gitlab.example.com<br>  server_tokens off; ## Don’t show the nginx version number, a security best practice<br>  return 301 <a href="https://$server_name$request_uri" target="_blank" rel="external">https://$server_name$request_uri</a>;<br>  access_log  /var/log/nginx/gitlab_access.log;<br>  error_log   /var/log/nginx/gitlab_error.log;<br>}<br>erver {<br>  listen 0.0.0.0:443 ssl;<br>  listen [::]:443 ipv6only=on ssl default_server;<br>  server_name YOUR_SERVER_FQDN; ## Replace this with something like gitlab.example.com</p>
+<h2 id="server_tokens_off;">  server_tokens off;</h2><p>1、上面的量处：”YOUR_SERVER_FQDN”，改成：gce.zrick.net;</p>
+<h2 id="2、注释掉两行：”listen_[::]:”，此信息为配置ip6访问地址">2、注释掉两行：”listen [::]:”，此信息为配置ip6访问地址</h2><p>注释掉以下几行：<br>location ~ ^/(assets)/ {<br>root /home/git/gitlab/public;<br>gzip_static on; # to serve pre-gzipped version<br>expires max;<br>add_header Cache-Control public;<br>}</p>
+</blockquote>
 <h2 id="8">8. 一些修正</h2>
 
 <h2 id="9">9. 记录:history</h2>
@@ -293,6 +336,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2015/04/07/1428410390/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          平滑升级Nginx
+        
+      </div>
+    </a>
   
   
     <a href="/2015/04/06/First-Doc/" id="article-nav-older" class="article-nav-link-wrap">
@@ -341,6 +393,7 @@
 	</script>
 	<!-- 多说公共JS代码 end -->
 </div>
+
 
 
 
@@ -393,7 +446,7 @@ MathJax.Hub.Queue(function() {
 </script>
 
 
-<div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
+<div id="totop" style="position:fixed;bottom:50px;right:50px;cursor: pointer;">
 <a title="返回顶部"><img src="/img/scrollup.png"/></a>
 </div>
 
